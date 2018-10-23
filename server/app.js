@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const db = require('./db');
-const { User } = db.models;
+const { User, Image } = db.models;
 
 
 const app = express();
@@ -20,6 +20,12 @@ app.get('/', (req, res)=> res.sendFile(index));
 app.get('/api/users', (req, res, next)=> {
   User.findAll()
     .then( users => res.send(users))
+    .catch(next);
+});
+
+app.get('/api/images', (req, res, next)=> {
+  Image.findAll()
+    .then( images => res.send(images))
     .catch(next);
 });
 

@@ -16,7 +16,8 @@ const syncAndSeed = ()=> {
 
 module.exports = {
   models: {
-    User
+    User,
+    Image
   },
   syncAndSeed
 };
