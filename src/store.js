@@ -2,6 +2,7 @@ const LOAD_USERS = 'LOAD_USERS';
 const CREATE_USER = 'CREATE_USER';
 const UPDATE_USER = 'UPDATE_USER';
 const DESTROY_USER = 'DESTROY_USER';
+const LOAD_IMAGES = 'LOAD_IMAGES';
 
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -27,12 +28,26 @@ const usersReducer = ( state = [], action)=> {
   return state;
 };
 
+const imagesReducer = ( state = [], action)=> {
+  switch(action.type){
+    case LOAD_IMAGES:
+      state = action.images;
+      break;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
-  users: usersReducer
+  users: usersReducer,
+  images: imagesReducer
 });
 
 export default createStore(reducer, applyMiddleware(thunk));
 
+const _loadImages = (images)=>({
+  type: LOAD_IMAGES,
+  images
+});
 
 const _loadUsers = (users)=>({
   type: LOAD_USERS,
@@ -82,6 +97,14 @@ const loadUsers = ()=> {
   }
 };
 
+const loadImages = ()=> {
+  return (dispatch)=> {
+    return axios.get('/api/images')
+      .then( response => response.data)
+      .then( images => dispatch(_loadImages(images))); 
+  }
+};
+
 const reset = ()=> {
   return (dispatch)=> {
     return axios.post('/api/users/reset')
@@ -89,4 +112,4 @@ const reset = ()=> {
   }
 };
 
-export { reset, destroyUser, createUser, updateUser, loadUsers };
+export { loadImages, reset, destroyUser, createUser, updateUser, loadUsers };

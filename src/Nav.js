@@ -15,6 +15,7 @@ const Nav = ({ users, path })=> {
     <ul>
       <li style={selected('/')}><Link to='/'>Home</Link></li>
       <li style={ selected('/users')}><Link to='/users'>Users ({ users.length })</Link></li>
+      <li style={ selected('/images')}><Link to='/images'>Images</Link></li>
     </ul>
   );
 };

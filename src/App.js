@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reset, loadUsers, destroyUser } from './store';
+import { loadImages, reset, loadUsers, destroyUser } from './store';
 import { Route, HashRouter as Router } from 'react-router-dom';
 import Users from './Users';
 import Nav from './Nav';
 import UserUpdate from './UserUpdate';
+import Images from './Images';
 
 class App extends Component{
   componentDidMount(){
@@ -19,6 +20,7 @@ class App extends Component{
             <Route component={ ({ location })=> <Nav path={ location.pathname }/> } />
             <Route exact path='/users' component={ Users } /> 
             <Route path='/users/:id' component={ UserUpdate } /> 
+            <Route path='/images' component={ Images } /> 
           </div>
         </Router>
       </div>
@@ -28,7 +30,10 @@ class App extends Component{
 
 const mapDispatchToProps = (dispatch)=> {
   return {
-    init: ()=> dispatch(loadUsers()),
+    init: ()=> {
+      dispatch(loadUsers());
+      dispatch(loadImages());
+    }
   };
 };
 
