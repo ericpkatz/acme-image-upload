@@ -29,6 +29,12 @@ app.get('/api/images', (req, res, next)=> {
     .catch(next);
 });
 
+app.post('/api/images', (req, res, next)=> {
+  Image.create(req.body)
+    .then( image => res.send(image))
+    .catch(next);
+});
+
 app.post('/api/users', (req, res, next)=> {
   User.create(req.body)
     .then( user => res.status(201).send(user))

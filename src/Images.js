@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createImage } from './store';
 
-const Images = ({ images })=> {
-  return (
-      <ul>
-      {
-        images.map( image => <img key={ image.id } src={ image.data } />)
+class Images extends Component {
+  componentDidMount(){
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', ()=> {
+      this.props.createImage(fileReader.result);
+    });
+    this.el.addEventListener('change', ()=> {
+      fileReader.readAsDataURL(this.el.files[0]);
+    });
+  }
+  render(){
+    const { images } = this.props;
+    return (
+        <div>
+          <input ref={ el => this.el = el } type='file' />
+          <ul>
+          {
+            images.map( image => <img key={ image.id } src={ image.data } />)
 
-      }</ul>
-  );
-};
+          }</ul>
+        </div>
+    );
+  }
+}
 
 const mapStateToProps = ({ images })=> {
   return {
@@ -17,4 +33,10 @@ const mapStateToProps = ({ images })=> {
   };
 };
 
-export default connect(mapStateToProps)(Images);
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    createImage: (data)=> dispatch(createImage(data))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Images);

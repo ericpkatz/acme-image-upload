@@ -105,6 +105,13 @@ const loadImages = ()=> {
   }
 };
 
+const createImage = (data)=> {
+  return (dispatch)=> {
+    return axios.post('/api/images', { data })
+      .then( () => dispatch(loadImages())); 
+  }
+};
+
 const reset = ()=> {
   return (dispatch)=> {
     return axios.post('/api/users/reset')
@@ -112,4 +119,4 @@ const reset = ()=> {
   }
 };
 
-export { loadImages, reset, destroyUser, createUser, updateUser, loadUsers };
+export { createImage, loadImages, reset, destroyUser, createUser, updateUser, loadUsers };
